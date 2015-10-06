@@ -20,7 +20,7 @@ def main():
     organism_part = []
     tissue = []
 
-    for line in open('sample_annotation.txt').readlines()[1:]:
+    for line in open('../../data/sample_annotation.txt').readlines()[1:]:
         line = line.split('\t')
         line = list(map(str.strip, line))
         is_cancer.append(line[1])
@@ -30,7 +30,7 @@ def main():
         organism_part.append(line[6])
         tissue.append(line[7])
 
-    print('Is Cancer')
+    print('Is cancer')
     pprint.pprint(sorted(Counter(is_cancer).items()))
     print('\n\nIs cell line')
     pprint.pprint(sorted(Counter(is_cell_line).items()))
