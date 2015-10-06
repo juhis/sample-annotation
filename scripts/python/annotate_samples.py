@@ -309,7 +309,7 @@ class Sample():
             self.organism_part = 'brain'
 
         #search for blood cells
-        pBlood = re.compile('monocyte|t(-?)(\s?)cell|b(-?)(\s?)cell|b(-?)(\s?)lymphocyte|nk(-?)(\s?)cell|eosinophil|erythroblast|basophil|leukocyt|erythrocyte|plasma cell|myeloblast|white blood|granulocyt', re.IGNORECASE)
+        pBlood = re.compile('monocyte|t(-?)(\s?)cell|b(-?)(\s?)cell|b(-?)(\s?)lymphocyte|nk(-?)(\s?)cell|eosinophil|erythroblast|basophil|leukocyt|erythrocyte|plasma cell|myeloblast|white blood|granulocyt|platelet|neutrophil', re.IGNORECASE)
         pNoBlood = re.compile('([a-zA-Z0-9])t cell')
         #this are all columns that contain one or more words (blood tissues) described above
         columnsBlood = [#'study_title',
@@ -341,6 +341,25 @@ class Sample():
                     if self.search(columnsBlood, pBlood, firstLine, line):
                         self.tissue = self.var
                         self.organism_part = 'blood'
+
+        #search for skin cells
+        pSkin = re.compile('keratinocyt|melanocytes|merkel cell|basal cell')
+        columnsSkin = ['ARRAYEXPRESS_COMMENT[SAMPLE_SOURCE_NAME]',
+                        'ARRAYEXPRESS_CHARACTERISTICS[CELL_TYPE]',
+                        #'study_title',
+                        'ARRAYEXPRESS_COMMENT[SAMPLE_DESCRIPTION]',
+                        'GEO_DESCRIPTION',
+                        'GEO_CHARACTERISTICS_CH1',
+                        #'experiment_title',
+                        #'library_name',
+                        'ARRAYEXPRESS_CHARACTERISTICS[ORGANISM_PART]',
+                        'GEO_TREATMENT_PROTOCOL_CH1',
+                        'ARRAYEXPRESS_COMMENT[SAMPLE_TITLE]',
+                        'ARRAYEXPRESS_CHARACTERISTICS[CELL_LINE]',
+                        'sample_alias']
+        if self.search(columnsSkin, pSkin, firstLine, line):
+            self.tissue = self.var
+            self.organism_part = 'skin'
 
         #if no tissue is found an empty string is assigned
         if self.tissue is None:
@@ -467,7 +486,7 @@ def main():
 
     newFile.close()
     pprint.pprint(countData)
-    #pprint.pprint(columns_by_counted_words(data, 'metasta|circulating (tumor|cluster of cells|single cells)'))
+    #pprint.pprint(columns_by_counted_words(data, 'keratinocyt|melanocytes|merkel cell|basal cell'))
 
 def columns_by_counted_words(data, pattern):
     '''
