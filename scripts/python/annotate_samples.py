@@ -185,8 +185,7 @@ class Sample():
 
     def search_columns_for_cell_line(self, firstLine, line):
         '''
-        This method searches for specific cell line names for the cell_line
-        field of the sample.
+        This method searches for specific cell line names.
         '''
         p = re.compile('GM12878|k562|HeLa|hep(\s?)g2|h1|huvec|SK-N-SH|IMR90|A549|MCF7|HMEC|CD14+|CD20+|IMR-32|HEK293|HCT116|HEK293T|OCI-LY1|MCF(-?)7|CRL2097|CSC8|CSC6|293S|MDA-MB-231|LNCAP|293T|MCF10A|MDA-MB231|H9|HEK 293', re.IGNORECASE)
         #this are all columns that contain one of the cell lines described above (GM12878, k562, HeLa, etc.)
@@ -223,8 +222,7 @@ class Sample():
 
     def search_columns_for_organism_part(self, firstLine, line):
         '''
-        This method searches specific columns for the organism_part field of
-        the sample.
+        This method searches for the organism_part of the sample.
         '''
         p = re.compile('brain|liver|pancreas|pancreatic islet|blood|skin|lung|breast|intestine|bone marrow|testis|ovary|bladder|kidney|heart|thymus|muscle|cervix|stomach|prostate|placenta|thyroid|adipose|epithelial', re.IGNORECASE)
         #this are all columns that contain one or more of the words described above (brain, liver, pancreas, etc.)
@@ -397,7 +395,7 @@ class Sample():
 
     def simplify_fields(self):
         '''
-        Group the same cells/tissues with different names into one.
+        Groups the same cells/tissues with different names into one.
         '''
         if self.tissue == 't-cell' or self.tissue == 'tcell' or self.tissue == 't\xa0cell':
             self.tissue = 't cell'
@@ -422,13 +420,13 @@ class Sample():
 
 def main():
     '''
-    This main method of the script creates a new file: Sample_annotation.txt. The
-    method then reads 2015_Q2_ENA_SRA_ARRAYEXPRESS_selected_columns.txt line by
-    line and makes a Sample object for every line. It calls the object's methods
-    to determine whether the sample is a cancer sample, whether it is a cell line,
-    what the cancer site is (if the sample is a cancer sample), what the organism
-    part is, and what the tissue is. After that it writes the information to the
-    new file.
+    This main method of the script creates a new file: sample_annotation.txt. The
+    method then reads 2015_09_24_ENA_with_SRA_ArrayExpress_GEO_filtered_columns.txt
+    line by line and makes a Sample object for every line. It calls the object's
+    methods to determine whether the sample is a cancer sample, whether it is a
+    cell line, what the cancer site is (if the sample is a cancer sample), what
+    the organism part is, what the tissue is and if the sample is metastatic if it
+    is a cancer sample. After that it writes the information to the new file.
     '''
     countData = {'is_cancer': 0, 'is_metastasis': 0, 'is_cell_line': 0, 'cancer_site': 0, 'cell_line': 0, 'organism_part': 0, 'tissue': 0}
     newFile = open('../../data/sample_annotation.txt', 'w')
@@ -437,8 +435,6 @@ def main():
     firstLine = data.readline().split('\t')
     for line in data:
         line = line.split('\t')
-##        line[19:21] = [''.join(line[19:21])]
-##        line[20:22] = [''.join(line[20:22])] #joined these two items, because the field contained a tab
 
         s = Sample(line[firstLine.index("run_accession")])
         s.search_columns_for_is_cancer(firstLine, line)
