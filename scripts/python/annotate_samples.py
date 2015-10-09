@@ -1,13 +1,9 @@
-#-------------------------------------------------------------------------------
-# Name:        AnnotateData.py
-# Purpose:
-#
+#-----------------------------------------------------------------------------------------------------------------------
+# Name:        annotate_samples.py
+# Purpose:     This script annotates the samples in 2015_09_24_ENA_with_SRA_ArrayExpress_GEO_filtered_columns.
 # Author:      Pytrik Folkertsma
-#
 # Created:     04-09-2015
-# Copyright:   (c) FolkersmaP 2015
-# Licence:     <your licence>
-#-------------------------------------------------------------------------------
+#-----------------------------------------------------------------------------------------------------------------------
 
 import re
 import pprint
@@ -98,7 +94,7 @@ class Sample():
 
     def search_columns_for_is_cell_line(self, firstLine, line):
         '''
-        This method checks if the sample comes from a cell line. If so, the method
+        This method checks if the sample is from a cell line. If so, the method
         puts self.is_cell_line on 'yes', if not, the method puts self.is_cell_line
         on 'no'.
         '''
@@ -188,6 +184,7 @@ class Sample():
         This method searches for specific cell line names.
         '''
         p = re.compile('GM12878|k562|HeLa|hep(\s?)g2|h1|huvec|SK-N-SH|IMR90|A549|MCF7|HMEC|CD14+|CD20+|IMR-32|HEK293|HCT116|HEK293T|OCI-LY1|MCF(-?)7|CRL2097|CSC8|CSC6|293S|MDA-MB-231|LNCAP|293T|MCF10A|MDA-MB231|H9|HEK 293', re.IGNORECASE)
+
         #this are all columns that contain one of the cell lines described above (GM12878, k562, HeLa, etc.)
         columns = ['ARRAYEXPRESS_CHARACTERISTICS[CELL_LINE]',
                     'ARRAYEXPRESS_COMMENT[SAMPLE_SOURCE_NAME]',
@@ -214,7 +211,7 @@ class Sample():
                     'ARRAYEXPRESS_CHARACTERISTICS[CELL_LINE_SPECIFICITY]',
                     'ARRAYEXPRESS_TERM_SOURCE_REF']
         if self.search(columns, p, firstLine, line):
-            self.cell_line = self.var
+            self.cell_line = self.var.replace(' ', '').replace('-', '')
 
         #if no cell line is found an empty string is assigned
         if self.cell_line is None:
@@ -343,7 +340,7 @@ class Sample():
                         self.organism_part = 'blood'
 
         #search for skin cells
-        pSkin = re.compile('keratinocyt|melanocytes|merkel cell|basal cell')
+        pSkin = re.compile('keratinocyt|melanocyt|merkel cell|basal cell')
         columnsSkin = ['ARRAYEXPRESS_COMMENT[SAMPLE_SOURCE_NAME]',
                         'ARRAYEXPRESS_CHARACTERISTICS[CELL_TYPE]',
                         #'study_title',
