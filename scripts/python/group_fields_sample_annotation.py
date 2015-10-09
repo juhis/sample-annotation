@@ -1,13 +1,9 @@
-#-------------------------------------------------------------------------------
-# Name:        module1
-# Purpose:
-#
-# Author:      FolkersmaP
-#
-# Created:     10-09-2015
-# Copyright:   (c) FolkersmaP 2015
-# Licence:     <your licence>
-#-------------------------------------------------------------------------------
+#-----------------------------------------------------------------------------------------------------------------------
+# Name:         group_fields_sample_annotation.py
+# Purpose:      This script groups the fields of the sample annotations.
+# Author:       Pytrik Folkertsma
+# Created:      10-09-2015
+#-----------------------------------------------------------------------------------------------------------------------
 
 from collections import Counter
 import pprint
@@ -31,17 +27,17 @@ def main():
         tissue.append(line[7])
 
     print('Is cancer')
-    pprint.pprint(sorted(Counter(is_cancer).items()))
+    pprint.pprint(sorted(list(Counter(is_cancer).items()), key=lambda x: x[1]))
     print('\n\nIs cell line')
-    pprint.pprint(sorted(Counter(is_cell_line).items()))
+    pprint.pprint(sorted(list(Counter(is_cell_line).items()), key=lambda x: x[1]))
     print('\n\nCancer site')
-    pprint.pprint(sorted(Counter(cancer_site).items()))
+    pprint.pprint(sorted(list(Counter(cancer_site).items()), key=lambda x: x[1]))
     print('\n\nCell line')
-    pprint.pprint(sorted(Counter(cell_line).items()))
+    pprint.pprint(sorted(list(Counter(cell_line).items()), key=lambda x: x[1]))
     print('\n\nOrganism parts')
-    pprint.pprint(sorted(Counter(organism_part).items()))
+    pprint.pprint(sorted(list(Counter(organism_part).items()), key=lambda x: x[1]))
     print('\n\nTissues')
-    pprint.pprint(sorted(Counter(tissue).items()))
+    pprint.pprint(sorted(list(Counter(tissue).items()), key=lambda x: x[1]))
 
 if __name__ == '__main__':
     main()
