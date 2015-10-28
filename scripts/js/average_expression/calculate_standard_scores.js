@@ -10,7 +10,7 @@ var start = new Date().getTime();
 
 if (process.argv.length !== 4) {
 	console.log('This script converts the values of a matrix to standard scores.')
-	console.log('Usage: node calculate_standard_scores.js input_matrix.txt.gz output_matrix.txt')
+	console.log('Usage: node calculate_standard_scores.js input_matrix output_matrix.txt')
 	process.exit(1);
 }
 
@@ -40,11 +40,11 @@ function end() {
 }
 
 
-
-matrix.pipe(gunzip).pipe(split()).pipe(calculateStandardScores).pipe(standardized_scores_matrix);
-
-
-
+if (process.argv[2].lastIndexOf('.gz') == process.argv[2].length - 3){
+	matrix.pipe(gunzip).pipe(split()).pipe(calculateStandardScores).pipe(standardized_scores_matrix);
+} else {
+	matrix.pipe(split()).pipe(calculateStandardScores).pipe(standardized_scores_matrix);
+}
 
 
 function timeToString(milliseconds){
