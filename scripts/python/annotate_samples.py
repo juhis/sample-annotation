@@ -5,6 +5,7 @@
 # Created:     04-09-2015
 #-----------------------------------------------------------------------------------------------------------------------
 
+import sys
 import re
 import pprint
 import operator
@@ -183,7 +184,7 @@ class Sample():
         '''
         This method searches for specific cell line names.
         '''
-        p = re.compile('GM12878|k562|HeLa|hep(\s?)g2|h1|huvec|SK-N-SH|IMR90|A549|MCF7|HMEC|CD14+|CD20+|IMR-32|HEK293|HCT116|HEK293T|OCI-LY1|MCF(-?)7|CRL2097|CSC8|CSC6|293S|MDA-MB-231|LNCAP|293T|MCF10A|MDA-MB231|H9|HEK 293', re.IGNORECASE)
+        p = re.compile('GM12878|k562|HeLa|hep(\s?)g2|h1|huvec|SK-N-SH|IMR90|A549|MCF7|HMEC|CD14+|CD20+|IMR-32|HEK293|HCT116|HEK293T|OCI-LY19|MCF(-?)7|CRL2097|CSC8|CSC6|293S|MDA-MB-231|LNCAP|293T|MCF10A|MDA-MB231|H9|HEK 293', re.IGNORECASE)
 
         #this are all columns that contain one of the cell lines described above (GM12878, k562, HeLa, etc.)
         columns = ['ARRAYEXPRESS_CHARACTERISTICS[CELL_LINE]',
@@ -306,8 +307,8 @@ class Sample():
             self.organism_part = 'brain'
 
         #search for blood cells
-        pBlood = re.compile('monocyte|t(-?)(\s?)cell|b(-?)(\s?)cell|b(-?)(\s?)lymphocyte|nk(-?)(\s?)cell|eosinophil|erythroblast|basophil|leukocyt|erythrocyte|plasma cell|myeloblast|white blood|granulocyt|platelet|neutrophil', re.IGNORECASE)
-        pNoBlood = re.compile('([a-zA-Z0-9])t cell')
+        pBlood = re.compile('monocyte|t(-?)(\s?)cell|b(-?)(\s?)cell|b(-?)(\s?)lymphocyte|nk(-?)(\s?)cell|eosinophil|erythroblast|basophil|leukocyte|erythrocyte|plasma cell|myeloblast|white blood|granulocyte|platelet|neutrophil', re.IGNORECASE)
+        pNoBlood = re.compile('([a-zA-Z0-9])t(-?)(\s?)(_?)cell')
         #this are all columns that contain one or more words (blood tissues) described above
         columnsBlood = [#'study_title',
                         'ARRAYEXPRESS_COMMENT[SAMPLE_SOURCE_NAME]',
@@ -340,7 +341,7 @@ class Sample():
                         self.organism_part = 'blood'
 
         #search for skin cells
-        pSkin = re.compile('keratinocyt|melanocyt|merkel cell|basal cell')
+        pSkin = re.compile('keratinocyte|melanocyte|merkel cell|basal cell')
         columnsSkin = ['ARRAYEXPRESS_COMMENT[SAMPLE_SOURCE_NAME]',
                         'ARRAYEXPRESS_CHARACTERISTICS[CELL_TYPE]',
                         #'study_title',
@@ -413,10 +414,12 @@ class Sample():
         '''
         Groups the same cells/tissues with different names into one.
         '''
-        if self.tissue == 't-cell' or self.tissue == 'tcell' or self.tissue == 't\xa0cell':
-            self.tissue = 't cell'
-        if self.tissue == 'b-cell' or self.tissue == 'bcell' or self.tissue == 'b lymphocyte' or self.tissue == 'b-lymphocyte':
-            self.tissue = 'b cell'
+        if self.tissue == 't cell' or self.tissue == 'tcell' or self.tissue == 't\xa0cell' or self.tissue == 't-cell':
+            self.tissue = 'T-cell'
+        if self.tissue == 'b cell' or self.tissue == 'bcell' or self.tissue == 'b lymphocyte' or self.tissue == 'b-lymphocyte' or self.tissue == 'b-cell':
+            self.tissue = 'B-cell'
+        if self.tissue == 'nk cell' or self.tissue == 'nkcell' or self.tissue == 'nk-cell':
+            self.tissue = 'NK-cell'
         if self.tissue == 'temporal cortex':
             self.tissue = 'temporal lobe'
         if self.tissue == 'anterior cingulate':
@@ -444,10 +447,15 @@ def main():
     the organism part is, what the tissue is and if the sample is metastatic if it
     is a cancer sample. After that it writes the information to the new file.
     '''
+    if (len(sys.argv) != 3):
+        print('This script creates an annotation file of the samples information file.')
+        print('Usage: python annotate_samples.py input_file output_file.txt')
+        sys.exit(0)
+
     countData = {'is_cancer': 0, 'is_metastasis': 0, 'is_cell_line': 0, 'cancer_site': 0, 'cell_line': 0, 'organism_part': 0, 'tissue': 0}
-    newFile = open('../../data/sample_annotation.txt', 'w')
+    newFile = open(sys.argv[2], 'w') #sample_annotation.txt
     newFile.write('run_accession\tannotation_is_cancer\tannotation_is_metastasis\tannotation_is_cell_line\tannotation_cancer_site\tannotation_cell_line\tannotation_organism_part\tannotation_tissue\tprediction_is_cancer\tprediction_is_cell_line\tprediction_cancer_site\tprediction_cell_line\tprediction_organism_part\tprediction_tissue\n')
-    data = open("../../data/2015_09_24_ENA_with_SRA_ArrayExpress_GEO_filtered_columns.txt", 'r')
+    data = open(sys.argv[1], 'r')
     firstLine = data.readline().split('\t')
     for line in data:
         line = line.split('\t')
@@ -483,14 +491,14 @@ def main():
 
     newFile.close()
     pprint.pprint(countData)
-    #pprint.pprint(columns_by_counted_words(data, 'keratinocyt|melanocytes|merkel cell|basal cell'))
+    #pprint.pprint(columns_by_counted_words(data, sys.argv, 'keratinocyt|melanocytes|merkel cell|basal cell'))
 
-def columns_by_counted_words(data, pattern):
+def columns_by_counted_words(data, sys.argv, pattern):
     '''
     This method returns how many times a given patterns is found in each column.
     '''
     dict = {}
-    data = open("../../data/2015_09_24_ENA_with_SRA_ArrayExpress_GEO_filtered_columns.txt", 'r')
+    data = open(sys.argv[1], 'r')
     firstLine = data.readline().split('\t')
     for e in firstLine:
         dict[e] = 0

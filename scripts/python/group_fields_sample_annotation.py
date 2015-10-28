@@ -7,8 +7,14 @@
 
 from collections import Counter
 import pprint
+import sys
 
 def main():
+    if (len(sys.argv) != 2):
+            print('\nThis script groups the fields of the sample annotation file.\n')
+            print('Usage: python group_fields_sample_annotation sample_annotation_file')
+            sys.exit(0)
+
     is_cancer = []
     is_cell_line = []
     cancer_site = []
@@ -16,9 +22,10 @@ def main():
     organism_part = []
     tissue = []
 
-    for line in open('../../data/sample_annotation.txt').readlines()[1:]:
+    for line in open(sys.argv[1]).readlines()[1:]:
         line = line.split('\t')
         line = list(map(str.strip, line))
+
         is_cancer.append(line[1])
         is_cell_line.append(line[3])
         cancer_site.append(line[4])
