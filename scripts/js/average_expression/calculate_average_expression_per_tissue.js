@@ -19,7 +19,7 @@ if (process.argv.length !== 5) {
 
 var tissue_indices = require('./' + process.argv[2])
 var matrix = fs.createReadStream(process.argv[3]);
-var average_expression_per_tissue_matrix = fs.createWriteStream(process.argv[3]);
+var average_expression_per_tissue_matrix = fs.createWriteStream(process.argv[4]);
 
 function calculateAverageExpression(buffer, encoding, next) {
 	var line = buffer.toString().split('\t')
