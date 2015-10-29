@@ -1,5 +1,5 @@
 /*
- * This script calculaties the average expression per tissue for every gene. 
+ * This script calculates the average expression per tissue for every gene. 
  */
 
 var fs = require('fs');

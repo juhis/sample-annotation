@@ -54,7 +54,6 @@ function getNormalSamples(line){
 		if (line[6] != '') { //line[6] = organism_part
 			if (!(line[6] in runAccessionsCelltypes)) {runAccessionsCelltypes[line[6]] = Array()}
 			runAccessionsCelltypes[line[6]].push(line[0]) //push run_accession to runAccessionsCelltypes
-
 			if (line[7] != '') { //line[7] = tissues
 				if (!(line[7] in runAccessionsCelltypes)) {runAccessionsCelltypes[line[7]] = Array()}
 				runAccessionsCelltypes[line[7]].push(line[0]) //push run_accession to dict

@@ -5,7 +5,7 @@ var split = require('split');
 var zlib = require('zlib');
 var gunzip = zlib.createGunzip()
 var gzip = zlib.createGzip()
-var calculateStandardScores = through(calculatedStandardScores, end);
+var calculateStandardScores = through(calculateStandardScores, end);
 var start = new Date().getTime();
 
 if (process.argv.length !== 4) {
@@ -17,7 +17,7 @@ if (process.argv.length !== 4) {
 var matrix = fs.createReadStream(process.argv[2]);
 var standardized_scores_matrix = fs.createWriteStream(process.argv[3]);
 
-function calculatedStandardScores(buffer, encoding, next) {
+function calculateStandardScores(buffer, encoding, next) {
 	var line = buffer.toString().split('\t')
 	if (_.startsWith(line[0], '-')){
 		this.push(line.join('\t'))
