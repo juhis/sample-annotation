@@ -6,7 +6,7 @@ var zlib = require('zlib');
 var gunzip = zlib.createGunzip()
 var gzip = zlib.createGzip()
 var calculatePvalues = through(calculatePvalues, end);
-var genstats = require('../../../../genstats')
+var genstats = require('genstats')
 var start = new Date().getTime();
 
 if (process.argv.length !== 5) {

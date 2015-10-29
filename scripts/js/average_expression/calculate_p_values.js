@@ -6,7 +6,7 @@ var zlib = require('zlib');
 var gunzip = zlib.createGunzip()
 var gzip = zlib.createGzip()
 var calculatePvalues = through(calculatePvalues, end);
-var genstats = require('../../../../genstats')
+var genstats = require('genstats')
 var start = new Date().getTime();
 
 if (process.argv.length !== 5) {
@@ -45,7 +45,7 @@ function calculatePvalues(buffer, encoding, next) {
 				values.push(line[index])
 				delete otherValues[line[index]]
 			})
-			pValues.push(genstats.student(values, otherValues.slice(1)).p) //perform t-test on the two groups
+			pValues.push(genstats.student(values, otherValues.slice(1)).p) //perform t-test on the two groups (deleted first item of otherValues (= the gene id))
 		})
 		this.push('\n' + gene + '\t' + pValues.join('\t'))
 	}
