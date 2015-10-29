@@ -10,7 +10,7 @@ var genstats = require('../../../../genstats')
 var start = new Date().getTime();
 
 if (process.argv.length !== 5) {
-	console.log('This script calculates the P-values per tissue compared to the rest of the samples.')
+	console.log('This script calculates the P-values per tissue/cancer site/cell line compared to the rest of the samples.')
 	console.log('Usage: node calculate_p_values.js indices.json input_matrix output_matrix.txt')
 	process.exit(1);
 }
@@ -41,12 +41,12 @@ function calculatePvalues(buffer, encoding, next) {
 		console.log(line.length)
 		_.forEach(indicesPerTissue, function(indices, tissue){ //for each tissue, create a list with the values associated with the tissue and a list with the rest of the samples
 			var values = []
-			var otherValues = line.slice(1) //delete first item (gene id)
+			var otherValues = line
 			_.forEach(indices, function(index) {
 				values.push(line[index])
 				delete otherValues[line[index]]
 			})
-			pValues.push(genstats.student(values, otherValues).p) //perform t-test on the two groups
+			pValues.push(genstats.student(values, otherValues.slice(1)).p) //perform t-test on the two groups
 		})
 		this.push('\n' + gene + '\t' + pValues.join('\t'))
 	}
