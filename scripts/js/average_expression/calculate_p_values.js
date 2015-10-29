@@ -10,7 +10,7 @@ var genstats = require('../../../../genstats')
 var start = new Date().getTime();
 
 if (process.argv.length !== 5) {
-	console.log('This script converts the values of a matrix to P-values.')
+	console.log('This script calculates the P-values per tissue compared to the rest of the samples.')
 	console.log('Usage: node calculate_p_values.js indices.json input_matrix output_matrix.txt')
 	process.exit(1);
 }
