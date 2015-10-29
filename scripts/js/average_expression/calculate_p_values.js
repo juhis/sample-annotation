@@ -38,7 +38,6 @@ function calculatePvalues(buffer, encoding, next) {
 		var gene = line[0]
 		var pValues = []
 		line = _.map(line, function(expression_value) {return parseFloat(expression_value)}); //convert values to float
-		console.log(line.length)
 		_.forEach(indicesPerTissue, function(indices, tissue){ //for each tissue, create a list with the values associated with the tissue and a list with the rest of the samples
 			var values = []
 			var otherValues = line
