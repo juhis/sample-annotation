@@ -5991,7 +5991,7 @@ SRR768659	no	no	no
 SRR768660	no	no	no				
 SRR770714	yes	no	yes				
 SRR770715	yes	no	yes	skin			
-SRR770716	yes	no	yes	skin			
+SRR770716	yes	no	yes	skin	jurkat		
 SRR770717	yes	no	yes	pancreas		pancreas	
 SRR770718	yes	no	yes	breast		breast	
 SRR770719	yes	no	yes	breast		breast	
@@ -6108,15 +6108,15 @@ SRR791071	no	no	yes		hmec
 SRR791072	no	no	yes		hmec		
 SRR791073	no	no	yes		hmec		
 SRR791074	yes	no	no	breast		breast	
-SRR791578	no	no	yes				
-SRR791579	no	no	yes				
-SRR791580	no	no	yes				
-SRR791581	no	no	yes				
-SRR791582	no	no	yes				
-SRR791583	no	no	yes				
-SRR791584	no	no	yes				
-SRR791585	no	no	yes				
-SRR791586	no	no	yes				
+SRR791578	no	no	yes		jurkat		
+SRR791579	no	no	yes		jurkat		
+SRR791580	no	no	yes		jurkat		
+SRR791581	no	no	yes		jurkat		
+SRR791582	no	no	yes		jurkat		
+SRR791583	no	no	yes		jurkat		
+SRR791584	no	no	yes		jurkat		
+SRR791585	no	no	yes		jurkat		
+SRR791586	no	no	yes		jurkat		
 SRR792841	no	no	yes		hela		
 SRR792842	no	no	yes		hela		
 SRR796172	yes	no	yes				
@@ -10791,42 +10791,42 @@ SRR1042029	no	no	no
 SRR1042030	no	no	no				
 SRR1042031	no	no	no				
 SRR1042032	no	no	no				
-SRR1042053	no	no	no				
-SRR1042054	no	no	no				
-SRR1042055	no	no	no				
-SRR1042056	no	no	no				
-SRR1042059	no	no	no				
-SRR1042060	no	no	no				
-SRR1042057	no	no	no				
-SRR1042058	no	no	no				
-SRR1042061	no	no	no				
-SRR1042062	no	no	no				
-SRR1042063	no	no	no				
-SRR1042064	no	no	no				
-SRR1042067	no	no	no				
-SRR1042068	no	no	no				
-SRR1042065	no	no	no				
-SRR1042066	no	no	no				
-SRR1042069	no	no	no				
-SRR1042070	no	no	no				
-SRR1042071	no	no	no				
-SRR1042072	no	no	no				
-SRR1042073	no	no	no				
-SRR1042074	no	no	no				
-SRR1042075	no	no	no				
-SRR1042076	no	no	no				
-SRR1042077	no	no	no				
-SRR1042078	no	no	no				
-SRR1042080	no	no	no				
-SRR1042079	no	no	no				
-SRR1042081	no	no	no				
-SRR1042082	no	no	no				
-SRR1042083	no	no	no				
-SRR1042084	no	no	no				
-SRR1042085	no	no	no				
-SRR1042086	no	no	no				
-SRR1042087	no	no	no				
-SRR1042088	no	no	no				
+SRR1042053	no	no	yes		jurkat		
+SRR1042054	no	no	yes		jurkat		
+SRR1042055	no	no	yes		jurkat		
+SRR1042056	no	no	yes		jurkat		
+SRR1042059	no	no	yes		jurkat		
+SRR1042060	no	no	yes		jurkat		
+SRR1042057	no	no	yes		jurkat		
+SRR1042058	no	no	yes		jurkat		
+SRR1042061	no	no	yes		jurkat		
+SRR1042062	no	no	yes		jurkat		
+SRR1042063	no	no	yes		jurkat		
+SRR1042064	no	no	yes		jurkat		
+SRR1042067	no	no	yes		jurkat		
+SRR1042068	no	no	yes		jurkat		
+SRR1042065	no	no	yes		jurkat		
+SRR1042066	no	no	yes		jurkat		
+SRR1042069	no	no	yes		jurkat		
+SRR1042070	no	no	yes		jurkat		
+SRR1042071	no	no	yes		jurkat		
+SRR1042072	no	no	yes		jurkat		
+SRR1042073	no	no	yes		jurkat		
+SRR1042074	no	no	yes		jurkat		
+SRR1042075	no	no	yes		jurkat		
+SRR1042076	no	no	yes		jurkat		
+SRR1042077	no	no	yes		jurkat		
+SRR1042078	no	no	yes		jurkat		
+SRR1042080	no	no	yes		jurkat		
+SRR1042079	no	no	yes		jurkat		
+SRR1042081	no	no	yes		jurkat		
+SRR1042082	no	no	yes		jurkat		
+SRR1042083	no	no	yes		jurkat		
+SRR1042084	no	no	yes		jurkat		
+SRR1042085	no	no	yes		jurkat		
+SRR1042086	no	no	yes		jurkat		
+SRR1042087	no	no	yes		jurkat		
+SRR1042088	no	no	yes		jurkat		
 SRR1042583	no	no	no				
 SRR1042584	no	no	no				
 SRR1042585	no	no	no				
@@ -17905,7 +17905,7 @@ SRR1698177	no	no	no			skin
 SRR1698178	no	no	no			skin	
 SRR1698175	no	no	no			skin	
 SRR1698176	no	no	no			skin	
-SRR1702788	no	no	no				
+SRR1702788	no	no	yes		jurkat		
 SRR1706767	no	no	no				
 SRR1706768	no	no	no				
 SRR1706769	no	no	no				
@@ -20993,8 +20993,8 @@ SRR2032107	no	no	no
 SRR2032111	no	no	no				
 SRR2032112	no	no	no				
 SRR2032113	no	no	no				
-SRR2029840	no	no	no				
-SRR2029841	no	no	no				
+SRR2029840	no	no	yes		jurkat		
+SRR2029841	no	no	yes		jurkat		
 SRR2031927	yes	no	yes	cervix	hela		
 SRR2031928	yes	no	yes	cervix	hela		
 SRR2031989	no	no	no				

@@ -10,6 +10,8 @@ import re
 import pprint
 import operator
 from collections import Counter
+from datetime import datetime
+startTime = datetime.now()
 
 class Sample():
     def __init__(self, run_accession):
@@ -29,7 +31,7 @@ class Sample():
         '''
         return 'run_accession: {}\nis_cancer: {}\nis_cell_line: {}\ncancer_site: {}\ncell_line: {}\norganims_part: {}\ntissue: {}\n\n'.format(self.run_accession, self.is_cancer, self.is_cell_line, self.cancer_site, self.cell_line, self.organism_part, self.tissue)
 
-    def search_columns_for_is_cancer(self, firstLine, line):
+    def search_columns_for_is_cancer(self, indices, line):
         '''
         This method will search the columns for the words cancer/tumor/carcinoma.
         It ignores samples that contain non-tumor/non-cancer in a column. If a
@@ -84,16 +86,16 @@ class Sample():
                     'ARRAYEXPRESS_CHARACTERISTICS[TISSUE_SOURCE]',
                     'ARRAYEXPRESS_CHARACTERISTICS[TUMOR_HISTOLOGY]',
                     'SRA_Histological_Type']
-        if line[firstLine.index("ARRAYEXPRESS_CHARACTERISTICS[CANCER_OR_NORMAL]")] == 'cancer' or line[firstLine.index("SRA_Tumor")] == 'yes':
+        if line[indices["ARRAYEXPRESS_CHARACTERISTICS[CANCER_OR_NORMAL]"]] == 'cancer' or line[indices["SRA_Tumor"]] == 'yes':
             self.is_cancer = 'yes'
             return None
         for column in columns:
-            if p.search(line[firstLine.index(column)]) and not pNonCancer.search(line[firstLine.index(column)]):
+            if p.search(line[indices[column]]) and not pNonCancer.search(line[indices[column]]):
                 self.is_cancer = 'yes'
                 return None
         self.is_cancer = 'no'
 
-    def search_columns_for_is_cell_line(self, firstLine, line):
+    def search_columns_for_is_cell_line(self, indices, line):
         '''
         This method checks if the sample is from a cell line. If so, the method
         puts self.is_cell_line on 'yes', if not, the method puts self.is_cell_line
@@ -132,12 +134,12 @@ class Sample():
                         'ARRAYEXPRESS_CHARACTERISTICS[TUMOR_STATE]',
                         'ARRAYEXPRESS_CHARACTERISTICS[CELL_LINE_SPECIFICITY]']
             for column in columns:
-                if p.search(line[firstLine.index(column)]):
+                if p.search(line[indices[column]]):
                     self.is_cell_line = 'yes'
                     return None
             self.is_cell_line = 'no'
 
-    def search_columns_for_cancer_site(self, firstLine, line):
+    def search_columns_for_cancer_site(self, indices, line):
         '''
         This method searches for cancer sites.
         '''
@@ -172,7 +174,7 @@ class Sample():
                     'ARRAYEXPRESS_CHARACTERISTICS[CELL/TISSUE_TYPE]',
                     'ARRAYEXPRESS_CHARACTERISTICS[TISSUE_SOURCE]',
                     'ARRAYEXPRESS_COMMENT[LIBRARY_SOURCE]']
-        if self.search(columns, p, firstLine, line):
+        if self.search(columns, p, indices, line):
             self.cancer_site = self.var.replace('cancer', '').replace('-', '').replace('tumor', '').replace('tumour', '').strip()
             self.is_cancer = 'yes'
 
@@ -180,11 +182,11 @@ class Sample():
         if self.cancer_site is None:
             self.cancer_site = ''
 
-    def search_columns_for_cell_line(self, firstLine, line):
+    def search_columns_for_cell_line(self, indices, line):
         '''
         This method searches for specific cell line names.
         '''
-        p = re.compile('GM12878|k562|HeLa|hep(\s?)g2|h1|huvec|SK-N-SH|IMR90|A549|MCF7|HMEC|CD14+|CD20+|IMR-32|HEK293|HCT116|HEK293T|OCI-LY19|MCF(-?)7|CRL2097|CSC8|CSC6|293S|MDA-MB-231|LNCAP|293T|MCF10A|MDA-MB231|H9|HEK 293', re.IGNORECASE)
+        p = re.compile('RUES2|GM12878|k562|HeLa|hep(\s?)g2|h1|huvec|SK-N-SH|IMR90|A549|MCF7|HMEC|CD14+|CD20+|IMR-32|HEK293|HCT116|HEK293T|OCI-LY19|MCF(-?)7|CRL2097|CSC8|CSC6|293S|MDA-MB-231|LNCAP|293T|MCF10A|MDA-MB231|H9|HEK 293|JurKat', re.IGNORECASE)
 
         #this are all columns that contain one of the cell lines described above (GM12878, k562, HeLa, etc.)
         columns = ['ARRAYEXPRESS_CHARACTERISTICS[CELL_LINE]',
@@ -211,29 +213,30 @@ class Sample():
                     'ARRAYEXPRESS_CHARACTERISTICS[BIOSOURCEPROVIDER]',
                     'ARRAYEXPRESS_CHARACTERISTICS[CELL_LINE_SPECIFICITY]',
                     'ARRAYEXPRESS_TERM_SOURCE_REF']
-        if self.search(columns, p, firstLine, line):
+        if self.search(columns, p, indices, line):
             self.cell_line = self.var.replace(' ', '').replace('-', '')
 
         #if no cell line is found an empty string is assigned
         if self.cell_line is None:
             self.cell_line = ''
 
-    def search_columns_for_organism_part(self, firstLine, line):
+    def search_columns_for_organism_part(self, indices, line):
         '''
         This method searches for the organism_part of the sample.
         '''
-        p = re.compile('brain|liver|pancreas|pancreatic islet|blood|skin|lung|breast|intestine|bone marrow|testis|ovary|bladder|kidney|heart|thymus|muscle|cervix|stomach|prostate|placenta|thyroid|adipose|epithelial', re.IGNORECASE)
+        p = re.compile('colon|appendix|esophagus|esophageal|spleen|adrenal|psoas|brain|liver|pancrea|blood|skin|lung|breast|intestine|bowel|bone(\s?)marrow|testis|ovary|gall\s?bladder|bladder|kidney|heart|thymus|muscle|cervix|stomach|prostate|placenta|thyroid|adipose|epithelial|epithelium', re.IGNORECASE)
+        pNot = re.compile('coloni')
         #this are all columns that contain one or more of the words described above (brain, liver, pancreas, etc.)
         columns = ['ARRAYEXPRESS_COMMENT[SAMPLE_SOURCE_NAME]',
                     #'study_title',
                     'ARRAYEXPRESS_CHARACTERISTICS[ORGANISM_PART]',
                     'ARRAYEXPRESS_CHARACTERISTICS[CELL_TYPE]',
                     'GEO_CHARACTERISTICS_CH1',
-                    #'experiment_title',
+                    'experiment_title',
                     'GEO_SOURCE_NAME_CH1',
                     'ARRAYEXPRESS_COMMENT[SAMPLE_TITLE]',
                     #'GEO_TREATMENT_PROTOCOL_CH1',
-                    #'library_name',
+                    'library_name',
                     'ARRAYEXPRESS_COMMENT[SAMPLE_DESCRIPTION]',
                     'sample_alias',
                     #'GEO_EXTRACT_PROTOCOL_CH1',
@@ -268,24 +271,29 @@ class Sample():
                     'ARRAYEXPRESS_CHARACTERISTICS[TISSUE_SUBTYPE]',
                     'ARRAYEXPRESS_CHARACTERISTICS[CANCER_SUBTYPE]',
                     'SRA_Histological_Type']
-        if self.search(columns, p, firstLine, line):
+
+        if self.search(columns, pNot, indices, line):
+            self.organism_part = ''
+            return
+
+        if self.search(columns, p, indices, line):
             self.organism_part = self.var
 
         #if no organism_part is found an empty string is assigned
         if self.organism_part is None:
             self.organism_part = ''
 
-    def search_columns_for_tissue(self, firstLine, line):
+    def search_columns_for_tissue(self, indices, line):
         '''
         This method searches the columns for the tissue.
         '''
         #search for brain tissues
-        pBrain = re.compile('(pre)?frontal (cortex|lobe)|cerebellum|cerebral cortex|parietal lobe|temporal (lobe|cortex|gyrus)|hippocampus|caudate|putamen|(fore|mid)brain|anterior cingulate', re.IGNORECASE)
+        pBrain = re.compile('occipital|(pre)?frontal(\scortex|\slobe)?|cerebellum|cerebral cortex|parietal(\slobe)?|temporal(\slobe|\scortex|\sgyrus)?|frontal gyrus|hippocampus|caudate|putamen|(fore|mid)brain|anterior cingulate', re.IGNORECASE)
         #this are all columns that contain one or more words (brain tissues) described above
         columnsBrain = ['ARRAYEXPRESS_CHARACTERISTICS[ORGANISM_PART]',
                         'ARRAYEXPRESS_COMMENT[SAMPLE_SOURCE_NAME]',
                         #'study_title',
-                        #'experiment_title',
+                        'experiment_title',
                         'SRA_Body_Site',
                         'GEO_CHARACTERISTICS_CH1',
                         'ARRAYEXPRESS_CHARACTERISTICS[TISSUE_REGION]',
@@ -296,19 +304,40 @@ class Sample():
                         'ARRAYEXPRESS_COMMENT[SAMPLE_DESCRIPTION]',
                         'ARRAYEXPRESS_CHARACTERISTICS[ORGANISMPART]',
                         'ARRAYEXPRESS_CHARACTERISTICS[TISSUE_COMPARTMENT]',
-                        #'library_name',
+                        'library_name',
                         'ARRAYEXPRESS_COMMENT[SAMPLE_TITLE]',
                         'sample_alias',
                         'ARRAYEXPRESS_CHARACTERISTICS[TISSUE/CELL]',
                         'GEO_TREATMENT_PROTOCOL_CH1',
                         'study_alias']
-        if self.search(columnsBrain, pBrain, firstLine, line):
+        if self.search(columnsBrain, pBrain, indices, line):
             self.tissue = self.var
             self.organism_part = 'brain'
+            return
+
+        #search for skin cells
+        pSkin = re.compile('keratinocyte|melanocyte|merkel cell|basal(\s?)epithelial(\s?)cell')
+        columnsSkin = ['ARRAYEXPRESS_COMMENT[SAMPLE_SOURCE_NAME]',
+                        'ARRAYEXPRESS_CHARACTERISTICS[CELL_TYPE]',
+                        'study_title',
+                        'ARRAYEXPRESS_COMMENT[SAMPLE_DESCRIPTION]',
+                        'GEO_DESCRIPTION',
+                        'GEO_CHARACTERISTICS_CH1',
+                        'experiment_title',
+                        'library_name',
+                        'ARRAYEXPRESS_CHARACTERISTICS[ORGANISM_PART]',
+                        'GEO_TREATMENT_PROTOCOL_CH1',
+                        'ARRAYEXPRESS_COMMENT[SAMPLE_TITLE]',
+                        'ARRAYEXPRESS_CHARACTERISTICS[CELL_LINE]',
+                        'sample_alias']
+        if self.search(columnsSkin, pSkin, indices, line):
+            self.tissue = self.var
+            self.organism_part = 'skin'
+            return
 
         #search for blood cells
-        pBlood = re.compile('monocyte|t(-?)(\s?)cell|b(-?)(\s?)cell|b(-?)(\s?)lymphocyte|nk(-?)(\s?)cell|eosinophil|erythroblast|basophil|leukocyte|erythrocyte|plasma cell|myeloblast|white blood|granulocyte|platelet|neutrophil', re.IGNORECASE)
-        pNoBlood = re.compile('([a-zA-Z0-9])t(-?)(\s?)(_?)cell')
+        pBlood = re.compile('cord blood|peripheral blood mononuclear|whole peripheral blood|whole blood|peripheral blood|pbmc|monocyte|t(-?)(\s?)cell|b(-?)(\s?)cell|b(-?)(\s?)lymphocyte|nk(-?)(\s?)cell|eosinophil|erythroblast|basophil|leukocyte|erythrocyte|plasma cell|myeloblast|white blood|granulocyte|platelet|neutrophil', re.IGNORECASE)
+        pNoBlood = re.compile('[a-zA-Z0-9](-?)(t|b)(-?)(\s?)(_?)cell|proerythroblasts|b(-?)(\s?)(_?)cell(-?)(\s?)(_?)lymphoma', re.IGNORECASE)
         #this are all columns that contain one or more words (blood tissues) described above
         columnsBlood = [#'study_title',
                         'ARRAYEXPRESS_COMMENT[SAMPLE_SOURCE_NAME]',
@@ -316,10 +345,10 @@ class Sample():
                         'GEO_SOURCE_NAME_CH1',
                         'GEO_CHARACTERISTICS_CH1',
                         'GEO_TREATMENT_PROTOCOL_CH1',
-                        #'experiment_title',
+                        'experiment_title',
                         #'GEO_EXTRACT_PROTOCOL_CH1',
                         'ARRAYEXPRESS_COMMENT[SAMPLE_TITLE]',
-                        #'library_name',
+                        'library_name',
                         'ARRAYEXPRESS_COMMENT[SAMPLE_DESCRIPTION]',
                         'experiment_alias',
                         'ARRAYEXPRESS_CHARACTERISTICS[CELL_LINE]',
@@ -333,37 +362,20 @@ class Sample():
                         #'GEO_CONTACT_INSTITUTE',
                         'ARRAYEXPRESS_COMMENT[BIOSOURCE_PROVIDER]',
                         'ARRAYEXPRESS_CHARACTERISTICS[TUMOR_SUBTYPE]']
-        if not pNoBlood.search(line[firstLine.index('ARRAYEXPRESS_CHARACTERISTICS[CELL_TYPE]')]):
-            if not pNoBlood.search(line[firstLine.index('ARRAYEXPRESS_COMMENT[SAMPLE_SOURCE_NAME]')]):
-                if not pNoBlood.search(line[firstLine.index('ARRAYEXPRESS_COMMENT[SAMPLE_DESCRIPTION]')]):
-                    if self.search(columnsBlood, pBlood, firstLine, line):
-                        self.tissue = self.var
-                        self.organism_part = 'blood'
+        if self.search(columnsBlood, pNoBlood, indices, line):
+            self.tissue = ''
+            return
 
-        #search for skin cells
-        pSkin = re.compile('keratinocyte|melanocyte|merkel cell|basal cell')
-        columnsSkin = ['ARRAYEXPRESS_COMMENT[SAMPLE_SOURCE_NAME]',
-                        'ARRAYEXPRESS_CHARACTERISTICS[CELL_TYPE]',
-                        #'study_title',
-                        'ARRAYEXPRESS_COMMENT[SAMPLE_DESCRIPTION]',
-                        'GEO_DESCRIPTION',
-                        'GEO_CHARACTERISTICS_CH1',
-                        #'experiment_title',
-                        #'library_name',
-                        'ARRAYEXPRESS_CHARACTERISTICS[ORGANISM_PART]',
-                        'GEO_TREATMENT_PROTOCOL_CH1',
-                        'ARRAYEXPRESS_COMMENT[SAMPLE_TITLE]',
-                        'ARRAYEXPRESS_CHARACTERISTICS[CELL_LINE]',
-                        'sample_alias']
-        if self.search(columnsSkin, pSkin, firstLine, line):
+        if self.search(columnsBlood, pBlood, indices, line):
             self.tissue = self.var
-            self.organism_part = 'skin'
+            self.organism_part = 'blood'
+            return
 
         #if no tissue is found an empty string is assigned
         if self.tissue is None:
             self.tissue = ''
 
-    def search_columns_for_is_metastasis(self, firstLine, line):
+    def search_columns_for_is_metastasis(self, indices, line):
         '''
         This method searches the columns for is_metastasis.
         '''
@@ -388,7 +400,7 @@ class Sample():
                     'sample_alias',
                     'ARRAYEXPRESS_CHARACTERISTICS[TISSUE_HARVEST_SITE]',
                     'GEO_DESCRIPTION']
-        if self.search(columns, p, firstLine, line):
+        if self.search(columns, p, indices, line):
             self.is_metastasis = 'yes'
             self.is_cancer = 'yes'
         if self.is_metastasis is None:
@@ -399,14 +411,15 @@ class Sample():
             if self.cancer_site != self.organism_part:
                 return(self.cancer_site != '' and self.organism_part != '')
 
-    def search(self, columns, pattern, firstLine, line):
+    def search(self, columns, pattern, indices, line):
         '''
         This method searches a given pattern in a given list of columns. If a
         word in one of the columns matches the pattern, the word is assigned to
         self.var and the method returns True.
         '''
+        self.var = ''
         for column in columns:
-            for m in pattern.finditer(line[firstLine.index(column)]):
+            for m in pattern.finditer(line[indices[column]]):
                 self.var = m.group().lower()
                 return True
 
@@ -414,18 +427,44 @@ class Sample():
         '''
         Groups the same cells/tissues with different names into one.
         '''
+        if self.organism_part == 'pancrea':
+            self.organism_part = 'pancreas'
+        if self.organism_part == 'bowel':
+            self.organism_part = 'intestine'
+        if self.organism_part == 'colon':
+            self.organism_part = 'intestine'
+        if self.organism_part == 'psoas':
+            self.organism_part = 'muscle'
+        if self.organism_part == 'adrenal':
+            self.organism_part = 'adrenal gland'
+        if self.organism_part == 'gallbladder':
+            self.organism_part = 'gall bladder'
+        if self.organism_part == 'esophageal':
+            self.organism_part = 'esophagus'
+        if self.organism_part == 'epithelial' or self.organism_part == 'epithelium':
+            self.organism_part = 'epithelial tissue'
+        if self.organism_part == 'adipose':
+            self.organism_part = 'adipose tissue'
         if self.tissue == 't cell' or self.tissue == 'tcell' or self.tissue == 't\xa0cell' or self.tissue == 't-cell':
             self.tissue = 'T-cell'
         if self.tissue == 'b cell' or self.tissue == 'bcell' or self.tissue == 'b lymphocyte' or self.tissue == 'b-lymphocyte' or self.tissue == 'b-cell':
             self.tissue = 'B-cell'
         if self.tissue == 'nk cell' or self.tissue == 'nkcell' or self.tissue == 'nk-cell':
             self.tissue = 'NK-cell'
-        if self.tissue == 'temporal cortex':
+        if self.tissue == 'temporal cortex' or self.tissue == 'temporal':
             self.tissue = 'temporal lobe'
+        if self.tissue == 'frontal':
+            self.tissue = 'frontal lobe'
+        if self.tissue == 'occipital':
+            self.tissue = 'occipital lobe'
         if self.tissue == 'anterior cingulate':
             self.tissue = 'prefrontal cortex'
         if self.tissue == 'white blood':
-            self.tissue = 'leukocyt'
+            self.tissue = 'leukocyte'
+        if self.tissue == 'pbmc' or self.tissue == 'peripheral blood mononuclear':
+            self.tissue = 'PBMC'
+        if self.tissue == 'whole peripheral blood' or self.tissue == 'peripheral blood':
+            self.tissue = 'whole blood'
         if self.cancer_site == 'leukemia':
             self.cancer_site = 'blood'
         if self.cancer_site == 'melanoma':
@@ -436,6 +475,13 @@ class Sample():
             self.cancer_site = 'pancreas'
         if self.cancer_site == 'myeloma':
             self.cancer_site = 'bone marrow'
+        if self.organism_part == 'epithelial tissue' and self.tissue == 'basal cell' or self.tissue == 'basal epithelial cell':
+            self.tissue = ''
+
+
+        #remove because there are not enough samples
+        if self.organism_part == 'cervix' or self.organism_part == 'appendix':
+            self.organism_part = ''
 
 def main():
     '''
@@ -447,27 +493,26 @@ def main():
     the organism part is, what the tissue is and if the sample is metastatic if it
     is a cancer sample. After that it writes the information to the new file.
     '''
-    if (len(sys.argv) != 3):
-        print('This script creates an annotation file of the samples information file.')
-        print('Usage: python annotate_samples.py input_file output_file.txt')
-        sys.exit(0)
-
-    countData = {'is_cancer': 0, 'is_metastasis': 0, 'is_cell_line': 0, 'cancer_site': 0, 'cell_line': 0, 'organism_part': 0, 'tissue': 0}
-    newFile = open(sys.argv[2], 'w') #sample_annotation.txt
-    newFile.write('run_accession\tannotation_is_cancer\tannotation_is_metastasis\tannotation_is_cell_line\tannotation_cancer_site\tannotation_cell_line\tannotation_organism_part\tannotation_tissue\tprediction_is_cancer\tprediction_is_cell_line\tprediction_cancer_site\tprediction_cell_line\tprediction_organism_part\tprediction_tissue\n')
-    data = open(sys.argv[1], 'r')
+    countData = {'is_cancer': 0, 'is_metastasis': 0, 'is_cell_line': 0, 'cancer_site': 0, 'cell_line': 0, 'organism_part': 0, 'cell_type': 0}
+    newFile = open('../../data/sample_annotation.txt', 'w') #sample_annotation.txt
+    newFile.write('run_accession\tannotation_is_cancer\tannotation_is_metastasis\tannotation_is_cell_line\tannotation_cancer_site\tannotation_cell_line\tannotation_organism_part\tannotation_cell_type\tprediction_is_cancer\tprediction_is_cell_line\tprediction_cancer_site\tprediction_cell_line\tprediction_organism_part\tprediction_tissue\n')
+    data = open('../../data/2015_09_24_ENA_with_SRA_ArrayExpress_GEO_filtered_columns.txt', 'r')
     firstLine = data.readline().split('\t')
+    indices = {}
+    for name in firstLine:
+        indices[name] = firstLine.index(name)
+
     for line in data:
         line = line.split('\t')
 
-        s = Sample(line[firstLine.index("run_accession")])
-        s.search_columns_for_is_cancer(firstLine, line)
-        s.search_columns_for_cell_line(firstLine, line)
-        s.search_columns_for_is_cell_line(firstLine, line)
-        s.search_columns_for_tissue(firstLine, line)
-        s.search_columns_for_cancer_site(firstLine, line)
-        s.search_columns_for_organism_part(firstLine, line)
-        s.search_columns_for_is_metastasis(firstLine, line)
+        s = Sample(line[indices["run_accession"]])
+        s.search_columns_for_is_cancer(indices, line)
+        s.search_columns_for_cell_line(indices, line)
+        s.search_columns_for_is_cell_line(indices, line)
+        s.search_columns_for_organism_part(indices, line)
+        s.search_columns_for_tissue(indices, line)
+        s.search_columns_for_cancer_site(indices, line)
+        s.search_columns_for_is_metastasis(indices, line)
         s.simplify_fields()
 
         #write data to new file
@@ -485,20 +530,21 @@ def main():
         if s.organism_part != '':
             countData['organism_part'] += 1
         if s.tissue != '':
-            countData['tissue'] += 1
+            countData['cell_type'] += 1
         if s.is_metastasis == 'yes':
             countData['is_metastasis'] += 1
 
     newFile.close()
     pprint.pprint(countData)
-    #pprint.pprint(columns_by_counted_words(data, sys.argv, 'keratinocyt|melanocytes|merkel cell|basal cell'))
+    print(datetime.now() - startTime)
+    #pprint.pprint(columns_by_counted_words('cancer|tumor|carcinoma'))
 
-def columns_by_counted_words(data, sys.argv, pattern):
+def columns_by_counted_words(pattern):
     '''
     This method returns how many times a given patterns is found in each column.
     '''
     dict = {}
-    data = open(sys.argv[1], 'r')
+    data = open('../../data/2015_09_24_ENA_with_SRA_ArrayExpress_GEO_filtered_columns.txt', 'r')
     firstLine = data.readline().split('\t')
     for e in firstLine:
         dict[e] = 0

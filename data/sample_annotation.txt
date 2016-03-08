@@ -608,7 +608,7 @@ DRR023274	no	no	yes		hela
 DRR023275	no	no	yes		hepg2		
 DRR023276	no	no	no				
 DRR023277	no	no	no				
-DRR023278	no	no	no				
+DRR023278	no	no	yes		jurkat		
 DRR023279	no	no	no				
 DRR023283	no	no	no				
 DRR023284	no	no	no				
@@ -3306,9 +3306,9 @@ ERR368941	no	no	yes		h1
 ERR368942	no	no	yes		h1		
 ERR368943	no	no	yes		h1		
 ERR368944	no	no	yes		h1		
-ERR375872	no	no	yes				
-ERR375873	no	no	yes				
-ERR375874	no	no	yes				
+ERR375872	no	no	yes		jurkat		
+ERR375873	no	no	yes		jurkat		
+ERR375874	no	no	yes		jurkat		
 ERR375885	no	no	no				
 ERR375886	no	no	no				
 ERR375887	no	no	no				
@@ -8194,42 +8194,42 @@ SRR1042029	no	no	no
 SRR1042030	no	no	no				
 SRR1042031	no	no	no				
 SRR1042032	no	no	no				
-SRR1042053	no	no	no				
-SRR1042054	no	no	no				
-SRR1042055	no	no	no				
-SRR1042056	no	no	no				
-SRR1042057	no	no	no				
-SRR1042058	no	no	no				
-SRR1042059	no	no	no				
-SRR1042060	no	no	no				
-SRR1042061	no	no	no				
-SRR1042062	no	no	no				
-SRR1042063	no	no	no				
-SRR1042064	no	no	no				
-SRR1042065	no	no	no				
-SRR1042066	no	no	no				
-SRR1042067	no	no	no				
-SRR1042068	no	no	no				
-SRR1042069	no	no	no				
-SRR1042070	no	no	no				
-SRR1042071	no	no	no				
-SRR1042072	no	no	no				
-SRR1042073	no	no	no				
-SRR1042074	no	no	no				
-SRR1042075	no	no	no				
-SRR1042076	no	no	no				
-SRR1042077	no	no	no				
-SRR1042078	no	no	no				
-SRR1042079	no	no	no				
-SRR1042080	no	no	no				
-SRR1042081	no	no	no				
-SRR1042082	no	no	no				
-SRR1042083	no	no	no				
-SRR1042084	no	no	no				
-SRR1042085	no	no	no				
-SRR1042086	no	no	no				
-SRR1042087	no	no	no				
-SRR1042088	no	no	no				
+SRR1042053	no	no	yes		jurkat		
+SRR1042054	no	no	yes		jurkat		
+SRR1042055	no	no	yes		jurkat		
+SRR1042056	no	no	yes		jurkat		
+SRR1042057	no	no	yes		jurkat		
+SRR1042058	no	no	yes		jurkat		
+SRR1042059	no	no	yes		jurkat		
+SRR1042060	no	no	yes		jurkat		
+SRR1042061	no	no	yes		jurkat		
+SRR1042062	no	no	yes		jurkat		
+SRR1042063	no	no	yes		jurkat		
+SRR1042064	no	no	yes		jurkat		
+SRR1042065	no	no	yes		jurkat		
+SRR1042066	no	no	yes		jurkat		
+SRR1042067	no	no	yes		jurkat		
+SRR1042068	no	no	yes		jurkat		
+SRR1042069	no	no	yes		jurkat		
+SRR1042070	no	no	yes		jurkat		
+SRR1042071	no	no	yes		jurkat		
+SRR1042072	no	no	yes		jurkat		
+SRR1042073	no	no	yes		jurkat		
+SRR1042074	no	no	yes		jurkat		
+SRR1042075	no	no	yes		jurkat		
+SRR1042076	no	no	yes		jurkat		
+SRR1042077	no	no	yes		jurkat		
+SRR1042078	no	no	yes		jurkat		
+SRR1042079	no	no	yes		jurkat		
+SRR1042080	no	no	yes		jurkat		
+SRR1042081	no	no	yes		jurkat		
+SRR1042082	no	no	yes		jurkat		
+SRR1042083	no	no	yes		jurkat		
+SRR1042084	no	no	yes		jurkat		
+SRR1042085	no	no	yes		jurkat		
+SRR1042086	no	no	yes		jurkat		
+SRR1042087	no	no	yes		jurkat		
+SRR1042088	no	no	yes		jurkat		
 SRR1042583	no	no	no				
 SRR1042584	no	no	no				
 SRR1042585	no	no	no				
@@ -9715,15 +9715,15 @@ SRR1168235	no	no	yes
 SRR1168236	no	no	no			skin	
 SRR1168261	no	no	yes		hela		
 SRR1168263	no	no	yes		hela		
-SRR1168264	no	no	no				
-SRR1168265	no	no	no				
-SRR1168266	no	no	no				
-SRR1168268	no	no	no				
-SRR1168270	no	no	no				
-SRR1168272	no	no	no				
-SRR1168273	no	no	no				
-SRR1168274	no	no	no				
-SRR1168275	no	no	no				
+SRR1168264	no	no	yes		jurkat		
+SRR1168265	no	no	yes		jurkat		
+SRR1168266	no	no	yes		jurkat		
+SRR1168268	no	no	yes		jurkat		
+SRR1168270	no	no	yes		jurkat		
+SRR1168272	no	no	yes		jurkat		
+SRR1168273	no	no	yes		jurkat		
+SRR1168274	no	no	yes		jurkat		
+SRR1168275	no	no	yes		jurkat		
 SRR1168284	no	no	yes		hela		
 SRR1168285	no	no	yes		hela		
 SRR1168333	no	no	no				
@@ -14525,7 +14525,7 @@ SRR1292165	no	no	no			adipose tissue
 SRR1292166	no	no	no			adipose tissue	
 SRR1292167	no	no	no			adipose tissue	
 SRR1292442	no	no	no				
-SRR1292447	no	no	no				
+SRR1292447	no	no	yes		jurkat		
 SRR1292452	no	no	yes		gm12878		
 SRR1292507	no	no	no				
 SRR1292576	no	no	no				
@@ -21191,8 +21191,8 @@ SRR1698175	no	no	no			skin
 SRR1698176	no	no	no			skin	
 SRR1698177	no	no	no			skin	
 SRR1698178	no	no	no			skin	
-SRR1702787	no	no	no				
-SRR1702788	no	no	no				
+SRR1702787	no	no	yes		jurkat		
+SRR1702788	no	no	yes		jurkat		
 SRR1706767	no	no	no				
 SRR1706768	no	no	no				
 SRR1706769	no	no	no				
@@ -22887,10 +22887,10 @@ SRR1791372	no	no	no
 SRR1791373	no	no	no				
 SRR1791374	no	no	no				
 SRR1791375	no	no	no				
-SRR1791520	no	no	no			blood	T-cell
-SRR1791521	no	no	no			blood	T-cell
-SRR1791522	no	no	no			blood	T-cell
-SRR1791523	no	no	no			blood	T-cell
+SRR1791520	no	no	yes		jurkat	blood	T-cell
+SRR1791521	no	no	yes		jurkat	blood	T-cell
+SRR1791522	no	no	yes		jurkat	blood	T-cell
+SRR1791523	no	no	yes		jurkat	blood	T-cell
 SRR1791617	no	no	no				
 SRR1791618	no	no	no				
 SRR1793917	no	no	no				
@@ -28174,8 +28174,8 @@ SRR2029641	no	no	no			blood
 SRR2029642	no	no	no			blood	
 SRR2029643	no	no	no			blood	
 SRR2029644	no	no	no			blood	
-SRR2029840	no	no	no				
-SRR2029841	no	no	no				
+SRR2029840	no	no	yes		jurkat		
+SRR2029841	no	no	yes		jurkat		
 SRR2031923	no	no	yes		hek293	kidney	
 SRR2031924	no	no	yes		hek293	kidney	
 SRR2031925	yes	no	yes	cervix	hela		
@@ -32506,8 +32506,8 @@ SRR492026	no	no	no
 SRR492027	no	no	no				
 SRR492028	no	no	no				
 SRR492029	no	no	no				
-SRR492030	no	no	no				
-SRR492031	no	no	no				
+SRR492030	no	no	yes		jurkat		
+SRR492031	no	no	yes		jurkat		
 SRR492032	no	no	yes		a549		
 SRR492033	no	no	yes		a549		
 SRR492034	no	no	yes		a549		
@@ -35447,7 +35447,7 @@ SRR768660	no	no	no
 SRR770500	no	no	no				
 SRR770714	yes	no	yes				
 SRR770715	yes	no	yes	skin			
-SRR770716	yes	no	yes	skin			
+SRR770716	yes	no	yes	skin	jurkat		
 SRR770717	yes	no	yes	pancreas		pancreas	
 SRR770718	yes	no	yes	breast		breast	
 SRR770719	yes	no	yes	breast		breast	
@@ -36043,15 +36043,15 @@ SRR791071	no	no	yes		hmec
 SRR791072	no	no	yes		hmec		
 SRR791073	no	no	yes		hmec		
 SRR791074	yes	no	no	breast		breast	
-SRR791578	no	no	yes				
-SRR791579	no	no	yes				
-SRR791580	no	no	yes				
-SRR791581	no	no	yes				
-SRR791582	no	no	yes				
-SRR791583	no	no	yes				
-SRR791584	no	no	yes				
-SRR791585	no	no	yes				
-SRR791586	no	no	yes				
+SRR791578	no	no	yes		jurkat		
+SRR791579	no	no	yes		jurkat		
+SRR791580	no	no	yes		jurkat		
+SRR791581	no	no	yes		jurkat		
+SRR791582	no	no	yes		jurkat		
+SRR791583	no	no	yes		jurkat		
+SRR791584	no	no	yes		jurkat		
+SRR791585	no	no	yes		jurkat		
+SRR791586	no	no	yes		jurkat		
 SRR792841	no	no	yes		hela		
 SRR792842	no	no	yes		hela		
 SRR796172	yes	no	yes				
