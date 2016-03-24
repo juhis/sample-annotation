@@ -12,7 +12,7 @@ import sys
 def main():
     if (len(sys.argv) != 2):
             print('\nThis script groups the fields of the sample annotation file.\n')
-            print('Usage: python group_fields_sample_annotation sample_annotation_file')
+            print('Usage: python group_fields_sample_annotation.py sample_annotations')
             sys.exit(0)
 
     is_cancer = []
