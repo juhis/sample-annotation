@@ -493,10 +493,15 @@ def main():
     the organism part is, what the tissue is and if the sample is metastatic if it
     is a cancer sample. After that it writes the information to the new file.
     '''
+
+    if len(sys.argv) != 3:
+    	print('usage: python annotate_samples.py 2015_09_24_ENA_with_SRA_ArrayExpress_GEO_filtered_columns.txt output.txt')
+    	sys.exit()
+
     countData = {'is_cancer': 0, 'is_metastasis': 0, 'is_cell_line': 0, 'cancer_site': 0, 'cell_line': 0, 'organism_part': 0, 'cell_type': 0}
-    newFile = open('../../data/sample_annotation.txt', 'w') #sample_annotation.txt
+    newFile = open(sys.argv[2], 'w') #sample_annotation.txt
     newFile.write('run_accession\tannotation_is_cancer\tannotation_is_metastasis\tannotation_is_cell_line\tannotation_cancer_site\tannotation_cell_line\tannotation_organism_part\tannotation_cell_type\tprediction_is_cancer\tprediction_is_cell_line\tprediction_cancer_site\tprediction_cell_line\tprediction_organism_part\tprediction_tissue\n')
-    data = open('../../data/2015_09_24_ENA_with_SRA_ArrayExpress_GEO_filtered_columns.txt', 'r')
+    data = open(sys.argv[1], 'r')
     firstLine = data.readline().split('\t')
     indices = {}
     for name in firstLine:
