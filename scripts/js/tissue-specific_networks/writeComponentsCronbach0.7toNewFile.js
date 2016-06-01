@@ -1,6 +1,6 @@
 /*
+ * This script writes the components with an cronbach's alpha > 0.7 to a new file. 
  * Author: Pytrik Folkertsma
- * Purpose: test 
  */
 
 var fs = require('fs');
@@ -13,8 +13,8 @@ var genstats = require('genstats')
 var start = new Date().getTime()
 
 if (process.argv.length != 5){
-	console.log('This script writes the eigenvectors with cronbach alpha > 0.7 to a new file.')
-	console.log('>> Eigenvectorfile needs to have PCs on the rows and genes on the columns!')
+	console.log('This script writes the eigenvectors with cronbachs alpha > 0.7 to a new file.')
+	console.log('>> Eigenvectorfile needs to have PCs on the rows and genes on the columns.')
 	console.log('Usage: node writeComponentsCronbach0.7toNewFile.js eigenvectorfile cronbachalphas output')
 	process.exit(1)
 }

@@ -1,3 +1,8 @@
+/*
+ * This script writes the transcript bar values in a matrix to a leveldb database.
+ * Author: Pytrik Folkertsma
+ */
+
 var level = require('level');
 var db = level('transcriptbars', {valueEncoding: 'binary'});
 var fs = require('fs');
